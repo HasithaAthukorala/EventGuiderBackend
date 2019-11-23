@@ -2,46 +2,28 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const passport = require('passport');
-const mysql = require('mysql');
-
-const database = require ('./databaseHandle/connectDatabase');
-
-const db = require('./config/database');
+const database = require('./db/connect');
+const user = require('./routes/user');
+const event = require('./routes/event');
 
 database.connect();
-const app = express();   // starting the express server
+const app = express();
+const port = 5000;
 
-const users = require('./routes/users');
-const port = 5000;      // the port which running the server
-
-//CORS middleware
 app.use(cors());
-
-//Set Static folder
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Body parser miidleware
 app.use(bodyParser.json());
-
-//Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
-
-require('./config/passport')(passport);
-
-
-app.use('/users',users);
-
-//Index route
+app.use('/user', user);
+app.use('/event', event);
 app.get('/', (req, res) => {
-    res.send('invalid Endpoint');
+    res.send('Invalid Endpoint');
 });
-
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/index.html'));
-})
-//Start server
+});
+app.use(function (err, req, res, next) {
+    res.status(500).json({msg: 'Server fault'});
+});
 app.listen(port, () => {
-    console.log('Server started on port '+port);
+    console.log('Server started on port ' + port);
 });
