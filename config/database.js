@@ -1,8 +1,8 @@
 
 const connectionDetails = {
-    host: 'localhost',
-    user: 'eventguider',
-    password: 'password',
-    database: 'eventguider'
+    host: 'remotemysql.com',
+    user: 'Qk49byPUab',
+    password: 'twwtp9H11G',
+    database: 'Qk49byPUab'
 }
 module.exports.data = connectionDetails;
