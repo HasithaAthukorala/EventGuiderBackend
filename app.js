@@ -24,6 +24,6 @@ app.get('*', (req, res) => {
 app.use(function (err, req, res, next) {
     res.status(500).json({msg: 'Server fault'});
 });
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server started on port ' + port);
 });
